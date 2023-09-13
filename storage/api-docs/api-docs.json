@@ -1,0 +1,155 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API-PAYSLIP-KLEDIO",
+        "contact": {
+            "email": "siska.stevani@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/payslips/{month}": {
+            "get": {
+                "tags": [
+                    "PaySlip"
+                ],
+                "summary": "Get a single payslip by Month",
+                "operationId": "73cfe66e0b7ae7270410a360f44652ac",
+                "parameters": [
+                    {
+                        "name": "month",
+                        "in": "path",
+                        "description": "month of the payslip to retrieve format Y-m",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example":"2023-07"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaySlipResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/presences": {
+            "post": {
+                "tags": [
+                    "Presences"
+                ],
+                "summary": "Store a new presence",
+                "operationId": "d005c7f2b5aac6a0c7972b6491fcd341",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StorePreferencesRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "PaySlipResponse": {
+                "properties": {
+                    "month": {
+                        "type": "string"
+                    },
+                    "components": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "amount": {
+                                    "type": "integer"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "take_home_pay": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "StorePreferencesRequest": {
+                "title": "Store Presences request",
+                "description": "Store Presences request body data",
+                "required": [
+                    "type"
+                ],
+                "properties": {
+                    "type": {
+                        "title": "type",
+                        "description": "Type presences in or out",
+                        "type": "string",
+                        "example": "in"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    }
+}
